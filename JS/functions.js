@@ -33,8 +33,8 @@ function showForm() {
 function enviarFormulario() {
     console.log("Entre a la funcion enviar formulario")
      // obtener los valores de los campos de texto
-     const codigoTienda = document.getElementById("codigoTiendaSCO").value;
-     const showUser = document.getElementById("showUserSCO").value;
+     const codigoTienda = document.getElementById("codigoTienda").value;
+     const showUser = document.getElementById("showUser").value;
    
      // construir el cuerpo del correo electrónico
      let body = `Código de tienda: ${codigoTienda}\n`;
