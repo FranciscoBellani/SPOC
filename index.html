@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="./CSS/estilos.css">
+    <script src="./JS/functions.js"></script>
+    <script src="./JS/email.js"></script>
+</head>
+<body>
+    <h1>Formulario</h1>
+    <form id="myForm" action="" method="post">
+        <label for="selectTarea">Seleccionar tarea:</label>
+        <select id="selectTarea" name="selectTarea" onchange="showForm()">
+            <option value="">Seleccione una opción</option>
+            <option value="SCO">Despliegue SCO</option>
+            <option value="OnSite">Solicitud OnSite</option>
+            <option value="PPC">Despliegue PPC</option>
+        </select>
+        <div id="formFields"></div>        
+    </form>
+    
+</body>
+</html>
