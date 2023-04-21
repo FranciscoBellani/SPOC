@@ -32,23 +32,35 @@ function showForm() {
 
 function enviarFormulario() {
     console.log("Entre a la funcion enviar formulario")
-     // obtener los valores de los campos de texto
-     const codigoTienda = document.getElementById("codigoTienda").value;
-     const showUser = document.getElementById("showUser").value;
-   
-     // construir el cuerpo del correo electrónico
-     let body = `Código de tienda: ${codigoTienda}\n`;
-     body += `Show User: ${showUser}\n`;
-   
-     // codificar el cuerpo del correo electrónico como un parámetro "body" de la URL
-     body = encodeURIComponent(body);
-   
-     // construir la URL para abrir el cliente de correo electrónico
-     const mailto = `mailto:?subject=Despliegue SCO&body=${body}`;
-   
-     // abrir el cliente de correo electrónico
-     window.location.href = mailto;
-     alert("Formulario enviado correctamente.");
-  return false;
-  }
+    const selectTarea = document.getElementById("selectTarea");
+    const tareaSeleccionada = selectTarea.options[selectTarea.selectedIndex].value;
+
+    let body = "";
+
+    if (tareaSeleccionada == "SCO") {
+        const codigoTienda = document.getElementById("codigoTienda").value;
+        const showUser = document.getElementById("showUser").value;
+        body = `Código de tienda: ${codigoTienda}\n`;
+        body += `Show User: ${showUser}\n`;
+    } else if (tareaSeleccionada == "OnSite") {
+        const codigoTienda = document.getElementById("codigoTienda").value;
+        const tareaRealizar = document.getElementById("tareaRealizar").value;
+        const fecha = document.getElementById("fecha").value;
+        body = `Código de tienda: ${codigoTienda}\n`;
+        body += `Tarea a realizar: ${tareaRealizar}\n`;
+        body += `Fecha: ${fecha}\n`;
+    } else if (tareaSeleccionada == "PPC") {
+        const codigoTienda = document.getElementById("codigoTienda").value;
+        const cargarExcel = document.getElementById("cargarExcel").value;
+        body = `Código de tienda: ${codigoTienda}\n`;
+        body += `Archivo Excel: ${cargarExcel}\n`;
+    }
+
+    body = encodeURIComponent(body);
+    const mailto = `mailto:?subject=${tareaSeleccionada}&body=${body}`;
+    window.location.href = mailto;
+    alert("Formulario enviado correctamente.");
+    return false;
+}
+
   
