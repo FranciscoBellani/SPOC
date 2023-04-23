@@ -3,22 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulario</title>
-    <link rel="stylesheet" href="./CSS/estilos.css">
+    <link rel="stylesheet" href="./CSS/login.css">
     <script src="./JS/functions.js"></script>
     <script src="./JS/email.js"></script>
+
+    <!-- Incluir el archivo CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 </head>
 <body>
-    <h1>Formulario</h1>
-    <form id="myForm" action="" method="post">
-        <label for="selectTarea">Seleccionar tarea:</label>
-        <select id="selectTarea" name="selectTarea" onchange="showForm()">
-            <option value="">Seleccione una opción</option>
-            <option value="SCO">Despliegue SCO</option>
-            <option value="OnSite">Solicitud OnSite</option>
-            <option value="PPC">Despliegue PPC</option>
-        </select>
-        <div id="formFields"></div>        
-    </form>
-    
+    <main>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6 login-section-wrapper">
+              
+              <div class="login-wrapper my-auto">
+                <h1 class="login-title">SPOC</h1>
+                <!-- Formulario en la segunda columna -->
+                <div class="p-3">
+                  <form id="myForm" action="" method="post">
+                      <div class="form-group">
+                          <label for="selectTarea">Seleccionar tarea:</label>
+                          <select id="selectTarea" name="selectTarea" onchange="showForm()" class="form-control">
+                              <option value="">Seleccione una opción</option>
+                              <option value="SCO">Despliegue SCO</option>
+                              <option value="OnSite">Solicitud OnSite</option>
+                              <option value="PPC">Despliegue PPC</option>
+                          </select>
+                      </div>
+                      <div id="formFields"></div>        
+                  </form>
+              </div>
+                </div>
+            </div>
+            <div class="col-sm-6 px-0 d-none d-sm-block">
+              <img src="./images/imgbackgorund.webp" alt="login image" class="login-img">
+            </div>
+          </div>
+        </div>
+      </main>
+
+    <!-- Incluir los archivos JavaScript de jQuery y Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -23,3 +23,14 @@ input[type="text"], textarea {
 textarea {
   height: 15px;
 }
+.image-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+
