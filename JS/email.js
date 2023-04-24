@@ -1,19 +1,32 @@
 function sendEmailSCO() {
-    // obtener los valores de los campos de texto
-    const codigoTienda = document.getElementById("codigoTiendaSCO").value;
-    const showUser = document.getElementById("showUserSCO").value;
+  function enviarFormulario() {
+    console.log("Entre a la funcion enviar formulario")
+    const selectTarea = document.getElementById("selectTarea");
+    const tareaSeleccionada = selectTarea.options[selectTarea.selectedIndex].value;
   
-    // construir el cuerpo del correo electrónico
-    let body = `Código de tienda: ${codigoTienda}\n`;
-    body += `Show User: ${showUser}\n`;
+    let body = "";
   
-    // codificar el cuerpo del correo electrónico como un parámetro "body" de la URL
+    if (tareaSeleccionada == "SCO") {
+      const codigoTienda = document.getElementById("codigoTienda").value;
+      const showUser = document.getElementById("showUser").value;
+      body = `Se procede a enviar para la activación de los SCO de la tienda: ${codigoTienda}. Muchas gracias.`;
+    } else if (tareaSeleccionada == "OnSite") {
+      const codigoTienda = document.getElementById("codigoTienda").value;
+      const tareaRealizar = document.getElementById("tareaRealizar").value;
+      const fecha = document.getElementById("fecha").value;
+      body = `Se procede a solicitar la visita a la tienda ${codigoTienda} para el día ${fecha}.`;
+    } else if (tareaSeleccionada == "PPC") {
+      const codigoTienda = document.getElementById("codigoTienda").value;
+      const cargarExcel = document.getElementById("cargarExcel").value;
+      body = `Se procede a cargar el archivo Excel para la tienda ${codigoTienda}.`;
+    }
+  
     body = encodeURIComponent(body);
-  
-    // construir la URL para abrir el cliente de correo electrónico
-    const mailto = `mailto:?subject=Despliegue SCO&body=${body}`;
-  
-    // abrir el cliente de correo electrónico
+    const mailto = `mailto:?subject=${tareaSeleccionada}&body=${body}`;
     window.location.href = mailto;
+    alert("Formulario enviado correctamente.");
+    return false;
+  }
+  
   }
   

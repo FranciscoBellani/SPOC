@@ -97,4 +97,16 @@ body {
   -o-object-position: left;
      object-position: left; }
 
-/*# sourceMappingURL=login.css.map */
+     .campo-sco {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 5px;
+      font-size: 16px;
+    }
+    
+    .btn.btn-primary {
+      margin: 10px;
+    }
+    
+    
+  
