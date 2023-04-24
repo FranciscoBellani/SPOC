@@ -25,12 +25,19 @@ function showForm() {
         formFields.innerHTML += '<label for="cargarExcel">Cargar Excel:</label>';
         formFields.innerHTML += '<input type="file" id="cargarExcel" name="cargarExcel" class="form-control">';
 
+         // Agregar listener al campo de entrada cargarExcel
+    const cargarExcelInput = document.getElementById("cargarExcel");
+    cargarExcelInput.addEventListener('change', function() {
+      uploadFile();
+    });
+
     }
     
     formFields.innerHTML += '<input type="button" class="btn btn-primary" value="Enviar" onclick="enviarFormulario()">';
 
 
 }
+let formData = new FormData();
 
 function enviarFormulario() {
     console.log("Entre a la funcion enviar formulario")
@@ -53,16 +60,38 @@ function enviarFormulario() {
         body += `Tarea a realizar: ${tareaRealizar}\n`;
     } else if (tareaSeleccionada == "PPC") {
         const codigoTienda = document.getElementById("codigoTienda").value;
-        const cargarExcel = document.getElementById("cargarExcel").value;
+        const cargarExcel = document.getElementById("cargarExcel").files[0];
         body = `Se procede a cargar el archivo Excel para la tienda ${codigoTienda}.`;
         body += `Archivo Excel: ${cargarExcel}\n`;
+
+        formData.append('cargarExcel', cargarExcel);
     }
 
     body = encodeURIComponent(body);
     const mailto = `mailto:?subject=${tareaSeleccionada}&body=${body}`;
-    window.location.href = mailto;
-    alert("Formulario enviado correctamente.");
-    return false;
+
+    if (tareaSeleccionada == "PPC") {
+        // Using fetch to send the email and the file
+        fetch(mailto, {
+            method: 'POST',
+            body: formData
+        }).then(() => {
+            alert("Formulario enviado correctamente.");
+            return false;
+        }).catch((error) => {
+            console.log(error);
+            alert("Error al enviar el formulario.");
+            return false;
+        });
+    } else {
+        // Using window.location.href to send the email
+        window.location.href = mailto;
+        alert("Formulario enviado correctamente.");
+        return false;
+    }
 }
 
-  
+function uploadFile() {
+    const fileInput = document.getElementById('cargarExcel');
+    formData.append('cargarExcel', fileInput.files[0]);
+}
