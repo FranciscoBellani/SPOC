@@ -1,4 +1,3 @@
-import axios from 'axios';
 function showForm() {
     var formFields = document.getElementById("formFields");
     formFields.innerHTML = "";
@@ -38,60 +37,66 @@ function showForm() {
 
 
 }
-let formData = new FormData();
 
 function enviarFormulario() {
-    console.log("Entre a la funcion enviar formulario");
+  const selectTarea = document.getElementById("selectTarea");
+  const tareaSeleccionada = selectTarea.options[selectTarea.selectedIndex].value;
+
+  let body = "";
+
+  if (tareaSeleccionada == "SCO") {
+    const codigoTienda = document.getElementById("codigoTienda").value;
+    const showUser = document.getElementById("showUser").value;
+    body = `Se procede a enviar para la activación de los SCO de la tienda: ${codigoTienda}. Muchas gracias.`;
+    body = `Código de tienda: ${codigoTienda}\n`;
+    body += `Show User: ${showUser}\n`;
+  } else if (tareaSeleccionada == "OnSite") {
+    const codigoTienda = document.getElementById("codigoTienda").value;
+    const tareaRealizar = document.getElementById("tareaRealizar").value;
+    const fecha = document.getElementById("fecha").value;
+    body = `Se procede a solicitar la visita a la tienda ${codigoTienda} para el día ${fecha}.`;
+    body += `Tarea a realizar: ${tareaRealizar}\n`;
+  } else if (tareaSeleccionada == "PPC") {    
+    const codigoTienda = document.getElementById("codigoTienda").value;
+    const cargarExcel = document.getElementById("cargarExcel").files[0];
+    console.log(cargarExcel.name);
+
+    body = `Se procede a cargar el archivo Excel para la tienda ${codigoTienda}.`;
+    body += `Archivo Excel: ${cargarExcel.name}\n`;
+
+    const formData = new FormData();
+    formData.append("cargarExcel", cargarExcel);
+
+    enviarEmailConAdjunto(codigoTienda, formData);    
+  }
+
+  body = encodeURIComponent(body);
+  const mailto = `mailto:?subject=${tareaSeleccionada}&body=${body}`;
+
+  window.location.href = mailto;
+  alert("Formulario enviado correctamente.");
+  return false;
+}
+
+function enviarEmailConAdjunto(codigoTienda, formData) {
+  const xhr = new XMLHttpRequest();
   
-    const selectTarea = document.getElementById("selectTarea");
-    const tareaSeleccionada = selectTarea.options[selectTarea.selectedIndex].value;
-  
-    let body = "";
-  
-    if (tareaSeleccionada == "SCO") {
-      const codigoTienda = document.getElementById("codigoTienda").value;
-      const showUser = document.getElementById("showUser").value;
-      body = `Se procede a enviar para la activación de los SCO de la tienda: ${codigoTienda}. Muchas gracias.`;
-      body = `Código de tienda: ${codigoTienda}\n`;
-      body += `Show User: ${showUser}\n`;
-    } else if (tareaSeleccionada == "OnSite") {
-      const codigoTienda = document.getElementById("codigoTienda").value;
-      const tareaRealizar = document.getElementById("tareaRealizar").value;
-      const fecha = document.getElementById("fecha").value;
-      body = `Se procede a solicitar la visita a la tienda ${codigoTienda} para el día ${fecha}.`;
-      body += `Tarea a realizar: ${tareaRealizar}\n`;
-    } else if (tareaSeleccionada == "PPC") {
-      const codigoTienda = document.getElementById("codigoTienda").value;
-      const cargarExcel = document.getElementById("cargarExcel").files[0];
-      body = `Se procede a cargar el archivo Excel para la tienda ${codigoTienda}.`;
-      body += `Archivo Excel: ${cargarExcel}\n`;
-  
-      const formData = new FormData();
-      formData.append("cargarExcel", cargarExcel);
-  
-      axios
-        .post(`mailto:?subject=${tareaSeleccionada}&body=${encodeURIComponent(body)}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(() => {
-          alert("Formulario enviado correctamente.");
-          return false;
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Error al enviar el formulario.");
-          return false;
-        });
-      return;
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      console.log(xhr.responseText);
+      alert("El email se ha enviado correctamente.");
     }
-  
-    body = encodeURIComponent(body);
-    const mailto = `mailto:?subject=${tareaSeleccionada}&body=${body}`;
-  
-    window.location.href = mailto;
-    alert("Formulario enviado correctamente.");
-    return false;
   }
   
+  xhr.open("POST", "https://franciscobellani.github.io/SPOC//send-email-with-attachment");
+  
+  const boundary = Math.random().toString().substr(2);
+  xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+  // Log formData before sending
+  console.log(formData);
+  
+  xhr.send(formData);
+}
+
+
