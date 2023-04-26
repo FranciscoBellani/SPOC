@@ -88,7 +88,7 @@ function enviarEmailConAdjunto(codigoTienda, formData) {
     }
   }
   
-  xhr.open("POST", "https://franciscobellani.github.io/SPOC//send-email-with-attachment");
+  xhr.open("POST", "https://franciscobellani.github.io/SPOC/send-email-with-attachment");
   
   const boundary = Math.random().toString().substr(2);
   xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + boundary);
